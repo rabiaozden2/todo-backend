@@ -37,8 +37,15 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
+	// Health check and root paths
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{"status": "ok", "message": "Welcome to Todo API! 🚀"})
+	})
+	r.GET("/api", func(c *gin.Context) {
+		c.JSON(200, gin.H{"status": "ok", "message": "Todo API v1.0 is running! 🚀", "endpoints": []string{"/api/auth/register", "/api/auth/login", "/api/tasks"}})
+	})
 	r.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+		c.JSON(200, gin.H{"status": "ok"})
 	})
 
 	authHandler := &handlers.AuthHandler{DB: database}
